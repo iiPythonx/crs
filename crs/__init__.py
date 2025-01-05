@@ -7,6 +7,8 @@ import typing
 from pathlib import Path
 from importlib import util
 
+import il
+
 # Handle routing
 class Routing:
     def __init__(self) -> None:
@@ -36,7 +38,7 @@ class Routing:
         file_spec.loader.exec_module(util.module_from_spec(file_spec))  # pyright: ignore
         self._current_module = None
 
-        print(f"\033[34m   Module loaded: {module_name}\033[0m")
+        il.indent(f"+ Module loaded: {module_name}", 34)
 
 routing = Routing()
 method = routing.method

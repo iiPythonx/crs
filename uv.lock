@@ -34,7 +34,7 @@ requires-dist = [
 [[package]]
 name = "indigo-logger"
 version = "0.1.0"
-source = { git = "https://github.com/iiPythonx/il#c0e6e78b3169f2a60e0fb18876d40e999f8d0dba" }
+source = { git = "https://github.com/iiPythonx/il#26af74225146a9caada350690f2eeeaa746dc416" }
 
 [[package]]
 name = "orjson"
