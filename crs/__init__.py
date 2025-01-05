@@ -10,7 +10,7 @@ from importlib import util
 # Handle routing
 class Routing:
     def __init__(self) -> None:
-        self.table: dict[str, typing.Any] = {}
+        self.table: dict[str, dict[str, typing.Any]] = {}
         self._current_module: typing.Optional[str] = None
 
     # Setup methods
@@ -19,16 +19,10 @@ class Routing:
             if self._current_module is None:
                 raise RuntimeError("no module")
 
-            segments = [self._current_module, *method_name.split("/")]
-            current_table = self.table
-            for index, item in enumerate(segments):
-                if item not in current_table:
-                    current_table[item] = {}
-                    if index == len(segments) - 1:
-                        current_table[item] = function
-                        break
-
-                current_table = current_table[item]
+            self.table[f"{self._current_module}/{method_name}"] = {
+                "func": function,
+                "type": typing.get_type_hints(function)["request"]
+            }
 
         return inner_callback
 
@@ -37,13 +31,12 @@ class Routing:
         if method_file.name != "__init__.py":
             module_name += f".{method_file.with_suffix('').name}"
 
-        print(f"Adding module {module_name}")
-        # print("BE", self.table)
-        self._current_module = module_name
+        self._current_module = module_name.replace(".", "/")
         file_spec = util.spec_from_file_location(module_name, method_file)
         file_spec.loader.exec_module(util.module_from_spec(file_spec))  # pyright: ignore
         self._current_module = None
-        # print("AF", self.table)
+
+        print(f"\033[34m   Module loaded: {module_name}\033[0m")
 
 routing = Routing()
 method = routing.method

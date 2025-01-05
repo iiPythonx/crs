@@ -6,7 +6,9 @@ authors = [
     { name = "iiPython", email = "ben@iipython.dev" }
 ]
 dependencies = [
-    "attrs>=24.3.0",
+    "indigo-logger",
+    "orjson>=3.10.13",
+    "pydantic>=2.10.4",
     "watchdog>=6.0.0",
     "websockets>=14.1",
 ]
@@ -22,3 +24,6 @@ path = "crs/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 packages = ["crs"]
+
+[tool.uv.sources]
+indigo-logger = { git = "https://github.com/iiPythonx/il" }

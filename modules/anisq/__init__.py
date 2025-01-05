@@ -2,13 +2,14 @@
 
 # Modules
 from crs import method
-from attrs import define
+from asyncio import sleep
+from pydantic import BaseModel
 
 # Setup routing
-@define
-class PingModel:
-    something: int
+class PingModel(BaseModel):
+    delay: float
 
 @method("ping")
-async def method_ping(result: PingModel) -> dict:
+async def method_ping(request: PingModel) -> dict:
+    await sleep(request.delay)
     return {"response": "pong"}

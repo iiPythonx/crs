@@ -2,13 +2,12 @@
 
 # Modules
 from crs import method
-from attrs import define
+from pydantic import BaseModel
 
 # Setup routing
-@define
-class PingModel2:
+class PingModel2(BaseModel):
     something: int
 
 @method("ping2")
-async def method_ping(result: PingModel2) -> dict:
+async def method_ping(request: PingModel2) -> dict:
     return {"response": "pong2"}
